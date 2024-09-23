@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "carewise-ai"
+version = "0.1.0"
+description = "CareWise AI: care-label classification"
+authors = ["suhan8984 <suhan8984@daum.net>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
