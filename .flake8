@@ -1,0 +1,11 @@
+[flake8]
+max-line-length = 120
+inline-quotes = single
+ignore = 
+    # Module level import not at top of file (for conditional import)
+    E402,
+extend-ignore =
+    # Whitespace before ':' black
+    E203,
+    # line break before binary operator
+    W503,
