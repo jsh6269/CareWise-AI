@@ -9,6 +9,8 @@
 
 4. poetry install
 
-5. pre-commit install
+5. poetry shell
 
-6. poetry run python sample.p6
+6. pre-commit install (꼭 하기!!)
+
+7. poetry run python sample.py
