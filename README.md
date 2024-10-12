@@ -14,3 +14,8 @@
 6. pre-commit install (꼭 하기!!)
 
 7. poetry run python sample.py
+
+## google drive 주소
+
+- 네이버 지식인  
+  https://drive.google.com/file/d/1SuHGsg83AhWXi_zpVZkqJkfyzWjCtEgG/view?usp=sharing
