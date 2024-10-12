@@ -1,7 +1,7 @@
 import json
 import os
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import Toplevel, messagebox
 
 from PIL import Image, ImageTk  # PIL 모듈 추가
 
@@ -21,7 +21,17 @@ class ImageLabelingApp:
             if img.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))
         ]
         self.current_image_index = 0
-        self.selections = {}
+
+        # JSON 데이터를 로드
+        self.json_path = './labels.json'
+
+        if not os.path.exists(self.json_path):
+            # 파일 생성 (빈 파일 만들기)
+            with open(self.json_path, 'w') as file:
+                json.dump({}, file, indent=4)
+
+        with open(self.json_path, 'r') as file:
+            self.selections = json.load(file)
 
         # 이미지 레이블
         self.image_label = tk.Label(self.root)
@@ -55,7 +65,10 @@ class ImageLabelingApp:
         self.submit_button = tk.Button(self.root, text='제출', command=self.submit_selection)
         self.submit_button.pack(pady=20)
 
-        # 이미지 표시
+        while self.images[self.current_image_index] in self.selections:
+            self.current_image_index += 1
+
+        self.open_new_window()
         self.show_image()
 
     def show_image(self):
@@ -116,14 +129,32 @@ class ImageLabelingApp:
     def submit_selection(self):
         self.save_to_json()
 
-        if self.current_image_index < len(self.images):
+        while self.images[self.current_image_index] in self.selections:
             self.current_image_index += 1
+
+        if self.current_image_index < len(self.images):
             self.show_image()
 
     def save_to_json(self):
-        json_file_path = './data/labels.json'
-        with open(json_file_path, 'a') as json_file:
+        json_file_path = './labels.json'
+        with open(json_file_path, 'w') as json_file:
             json.dump(self.selections, json_file, ensure_ascii=False, indent=4)
+
+    def open_new_window(self):
+        # 새 창 생성
+        new_window = Toplevel(self.root)
+        new_window.title('Carelabel Table')
+        new_window.geometry('800x800')  # 이미지에 맞는 적절한 크기로 조정
+
+        # 이미지 불러오기
+        img = Image.open('carelabel_table.png')  # 파일 경로를 적절히 설정
+        img = img.resize((800, 800))  # 이미지 크기 조정 (원하는 크기로 변경 가능)
+        img_tk = ImageTk.PhotoImage(img)
+
+        # 이미지 라벨 생성
+        label = tk.Label(new_window, image=img_tk)
+        label.image = img_tk  # 이미지가 사라지지 않도록 참조를 유지해야 함
+        label.pack(pady=10)
 
 
 # 메인 루프
