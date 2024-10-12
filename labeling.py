@@ -76,7 +76,7 @@ class ImageLabelingApp:
             scale = min(max_width / img_width, max_height / img_height, 1)
             new_width = int(img_width * scale)
             new_height = int(img_height * scale)
-            img_resized = img.resize((new_width, new_height), Image.ANTIALIAS)
+            img_resized = img.resize((new_width, new_height), Image.LANCZOS)
 
             # Tkinter에서 사용할 수 있는 이미지 객체로 변환
             self.image = ImageTk.PhotoImage(img_resized)
