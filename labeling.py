@@ -21,7 +21,17 @@ class ImageLabelingApp:
             if img.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))
         ]
         self.current_image_index = 0
-        self.selections = {}
+
+        # JSON 데이터를 로드
+        self.json_path = './labels.json'
+
+        if not os.path.exists(self.json_path):
+            # 파일 생성 (빈 파일 만들기)
+            with open(self.json_path, 'w') as file:
+                json.dump({}, file, indent=4)
+
+        with open(self.json_path, 'r') as file:
+            self.selections = json.load(file)
 
         # 이미지 레이블
         self.image_label = tk.Label(self.root)
@@ -54,6 +64,9 @@ class ImageLabelingApp:
         # 제출 버튼
         self.submit_button = tk.Button(self.root, text='제출', command=self.submit_selection)
         self.submit_button.pack(pady=20)
+
+        while self.images[self.current_image_index] in self.selections:
+            self.current_image_index += 1
 
         # 이미지 표시
         self.show_image()
@@ -116,13 +129,15 @@ class ImageLabelingApp:
     def submit_selection(self):
         self.save_to_json()
 
-        if self.current_image_index < len(self.images):
+        while self.images[self.current_image_index] in self.selections:
             self.current_image_index += 1
+
+        if self.current_image_index < len(self.images):
             self.show_image()
 
     def save_to_json(self):
-        json_file_path = './data/labels.json'
-        with open(json_file_path, 'a') as json_file:
+        json_file_path = './labels.json'
+        with open(json_file_path, 'w') as json_file:
             json.dump(self.selections, json_file, ensure_ascii=False, indent=4)
 
 
