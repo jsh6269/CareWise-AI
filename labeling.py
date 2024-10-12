@@ -1,7 +1,7 @@
 import json
 import os
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import Toplevel, messagebox
 
 from PIL import Image, ImageTk  # PIL 모듈 추가
 
@@ -68,7 +68,7 @@ class ImageLabelingApp:
         while self.images[self.current_image_index] in self.selections:
             self.current_image_index += 1
 
-        # 이미지 표시
+        self.open_new_window()
         self.show_image()
 
     def show_image(self):
@@ -139,6 +139,22 @@ class ImageLabelingApp:
         json_file_path = './labels.json'
         with open(json_file_path, 'w') as json_file:
             json.dump(self.selections, json_file, ensure_ascii=False, indent=4)
+
+    def open_new_window(self):
+        # 새 창 생성
+        new_window = Toplevel(self.root)
+        new_window.title('Carelabel Table')
+        new_window.geometry('800x800')  # 이미지에 맞는 적절한 크기로 조정
+
+        # 이미지 불러오기
+        img = Image.open('carelabel_table.png')  # 파일 경로를 적절히 설정
+        img = img.resize((800, 800))  # 이미지 크기 조정 (원하는 크기로 변경 가능)
+        img_tk = ImageTk.PhotoImage(img)
+
+        # 이미지 라벨 생성
+        label = tk.Label(new_window, image=img_tk)
+        label.image = img_tk  # 이미지가 사라지지 않도록 참조를 유지해야 함
+        label.pack(pady=10)
 
 
 # 메인 루프
