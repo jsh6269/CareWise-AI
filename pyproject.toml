@@ -9,14 +9,19 @@ authors = ["suhan8984 <suhan8984@daum.net>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
-numpy = "^2.1.1"
+python = ">=3.10,<3.12"
+numpy = "1.26.4"
 torch = "^2.4.1"
 matplotlib = "^3.9.2"
-requests = "^2.32.3"
+requests = "2.27.0"
 beautifulsoup4 = "^4.12.3"
 tqdm = "^4.66.5"
 pillow = "^10.4.0"
+transformers = "^4.46.1"
+opencv-python = "^4.10.0.84"
+inference-sdk = "^0.25.0"
+roboflow = "^1.1.49"
+ultralytics = "^8.3.27"
 
 
 [tool.poetry.group.dev.dependencies]
